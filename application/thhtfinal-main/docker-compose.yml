@@ -1,0 +1,23 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  nhan_du_lieu:
+    build: ./nhan_du_lieu
+    container_name: nhan_du_lieu
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./data:/app/data
+
+  gui_du_lieu:
+    build: ./gui_du_lieu
+    container_name: gui_du_lieu
+    depends_on:
+      - rabbitmq     # chỉ phụ thuộc vào RabbitMQ
+    volumes:
+      - ./data:/app/data
